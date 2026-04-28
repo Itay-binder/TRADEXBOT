@@ -16,6 +16,7 @@ class Settings(BaseSettings):
 
     economic_calendar_api_key: str = ""
     economic_calendar_source: str = "investing"
+    news_poll_interval_seconds: int = 300
 
     whatsapp_webhook_url: str = ""
     pickmytrade_api_key: str = ""

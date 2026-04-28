@@ -1,0 +1,59 @@
+services:
+  - type: web
+    name: tradexbot-backend
+    env: docker
+    rootDir: backend
+    plan: starter
+    region: frankfurt
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DEFAULT_TIMEFRAME
+        value: 5m
+      - key: DEFAULT_STRATEGY
+        value: breakout_v1
+      - key: TRADINGVIEW_SYMBOLS
+        value: BTCUSDT,ETHUSDT
+      - key: NEWS_POLL_INTERVAL_SECONDS
+        value: 300
+      - key: TRADINGVIEW_API_KEY
+        sync: false
+      - key: ECONOMIC_CALENDAR_API_KEY
+        sync: false
+      - key: WHATSAPP_WEBHOOK_URL
+        sync: false
+      - key: PICKMYTRADE_API_KEY
+        sync: false
+
+  - type: worker
+    name: tradexbot-scanner-worker
+    env: docker
+    rootDir: backend
+    dockerCommand: python -m app.worker
+    plan: starter
+    region: frankfurt
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DEFAULT_TIMEFRAME
+        value: 5m
+      - key: DEFAULT_STRATEGY
+        value: breakout_v1
+      - key: TRADINGVIEW_SYMBOLS
+        value: BTCUSDT,ETHUSDT
+      - key: NEWS_POLL_INTERVAL_SECONDS
+        value: 300
+      - key: TRADINGVIEW_API_KEY
+        sync: false
+      - key: ECONOMIC_CALENDAR_API_KEY
+        sync: false
+      - key: WHATSAPP_WEBHOOK_URL
+        sync: false
+      - key: PICKMYTRADE_API_KEY
+        sync: false

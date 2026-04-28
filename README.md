@@ -16,9 +16,11 @@ Always paper-trade and validate risk controls before connecting to live accounts
 ## Architecture
 
 - `backend/` - FastAPI service, signal engine, connectors, API.
-- `dashboard/` - Streamlit admin/monitoring interface.
+- `dashboard/` - Streamlit admin/monitoring interface (legacy local control panel).
+- `frontend/` - Next.js web dashboard (recommended UI for Vercel).
 - `.github/workflows/` - CI and deployment automation.
 - `docker-compose.yml` - local orchestration.
+- `render.yaml` - Render blueprint for backend web service and scanner worker.
 
 ## Features in this scaffold
 
@@ -69,12 +71,16 @@ pip install -e .[dev]
 uvicorn app.main:app --reload --port 8000
 ```
 
-### 4) Run dashboard locally
+### 4) Run Next.js frontend locally
 
 ```bash
-pip install streamlit requests
-streamlit run dashboard/app.py
+cd frontend
+cp .env.example .env.local
+npm install
+npm run dev
 ```
+
+Frontend: `http://localhost:3000`
 
 ## API outline
 
@@ -93,3 +99,9 @@ streamlit run dashboard/app.py
 - Add persistence (PostgreSQL + Redis + job queue).
 - Add authentication (JWT + role-based access).
 - Add broker-specific trade guardrails and max risk per trade.
+
+## Deployment plan (recommended)
+
+- Backend + Worker: Render using `render.yaml` (EU region set to Frankfurt).
+- Frontend: Vercel (`frontend/`) with `NEXT_PUBLIC_BACKEND_URL` set to Render backend URL.
+- Keep trading mode in paper until you validate signal quality and automation safety.
