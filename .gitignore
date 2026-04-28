@@ -10,6 +10,7 @@ htmlcov/
 # Virtualenv
 .venv/
 venv/
+*.egg-info/
 
 # Environment
 .env
